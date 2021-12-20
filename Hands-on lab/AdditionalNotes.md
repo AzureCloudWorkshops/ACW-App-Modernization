@@ -11,37 +11,27 @@
     - Web VM with a working IIS website for Parts Unlimited as of .Net Framework 4.8
     - SQL Server VM with a working SQL Server 2008 with the Parts Unlimited site deployed to it
 
+1. Ensure you completed the scripts for getting the deployment of the web done (the guides will ask you to do that later but it's easier to do it up front).
+
 1. Begin the Hands-on-lab
 
-    Run the deployment.
+1. The migration project is a bit tricky.  At times, you won't see your project.  You must add your tools to your project.  
 
-    Validate that you have the Web and SQL VM
+1. When you migrate the web, it deploys to Azure App Service on premium, you'll want to downgrade to Standard
 
-    Navigate to the Web VM ip in the browser.
+1. With most subscriptions not Pay-as-you-go, you simply won't be able to do the server migration.  
 
-    ![IIS is shown](media/additionalnotes/image0000.png)  
+    Instead, just create a full, copy-only backup, restore locally on your machine, create a bacpac file, upload to storage, then import to a new database at Azure.  You can likely use the Parts database that was provisioned.  Optionally, you could downgrade the parts database to basic to save money (it's currently standard).
 
-    RDP to the web vm.  The act of getting logged in will make sure that the scripts for the web deployment are completed.
+    Another approach is to delete the parts database and create a simple basic database to save money.
 
-    ![The scripts need to complete](media/additionalnotes/image0001.png)  
+1. Once you have the database restored at Azure, and you have the web solution migrated, you are done with the first part of the "app modernization".  
 
-    After the scripts are completed, once again, navigate to the Web VM ip in the browser.  This time it should work:
+1. At this point, you should have a working web application and you should have a deployed database with data in it.  You should also have added the connection string to the app service.
 
-    ![The scripts are complete and the site works](media/additionalnotes/image0002.png)  
+2. For the GitHub actions, the deployment workflow is not correct.  
 
-1. RDP to the SQL Server VM
 
-    Ensure that you can log in to the SQL Server VM.
-
-    Once in, open SSMS for SQL Server 2008 from the SQL server VM
-
-    Use Windows Authentication to connect.
-
-    ![Connect to the SQL Server](media/additionalnotes/image0003.png)  
-
-    Expand the SQL Server 2008 database to see the tables.
-
-    ![The database is present and the tables are visible](media/additionalnotes/image0004.png)  
 
 
 
