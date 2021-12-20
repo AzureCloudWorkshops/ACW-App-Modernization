@@ -29,7 +29,27 @@
 
 1. At this point, you should have a working web application and you should have a deployed database with data in it.  You should also have added the connection string to the app service.
 
-2. For the GitHub actions, the deployment workflow is not correct.  
+1. If you don't use a deployment slot, that is ok.  Instead, just use the production slot if you are on a free account.
+
+1. You will need to use the web server until you are done so don't clean it up.  Once you have the database migrated, you should not need the sql server.  You can stop it to be safe and save some money until you are done with the activity.
+
+1. The deployment workflow should work as expected for this application, as long as you've followed the other steps correctly.  Don't forget you can't deploy without:
+
+- Your secret "publish profile" being set correctly
+- You must update the workflow to contain the correct web application name.  
+- If you are NOT using a slot, then remove the slot portion of the deployment.
+
+1. Make sure you make obvious changes that are visible for the deployment task so that you can easily see that your workflow is working as expected.
+
+1. After deployment, swap to production as tasked.
+
+1. At the end, you'll have a web page that is supposed to commit orders and in the process enter a message into the queue. 
+
+    At some point, the azure function should trigger and then respond to the storage queue.
+
+    Seems like there is nothing wiring up the function to respond to the message, and that the use of Queue is a poor choice here - seems like more of a job for service bus.  
+
+    Not sure how the function would ever get triggered since no event was ever created, no storage queue was manually created, and no trigger/event was wired up.
 
 
 

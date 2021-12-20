@@ -684,33 +684,31 @@ In this exercise, you will move the codebase to a GitHub Repo, create a staging 
 
     ![GitHub.com Landing page is shown. New button to create a new repository is highlighted.](media/github-new-repo.png "GitHub new repo")
 
-2. Type in `partsunlimited` **(1)** as your repository name. Select **Private (2)** to prevent public access to the repository. Select **Create repository (3)** to continue.
+1. Type in `partsunlimited` **(1)** as your repository name. Select **Private (2)** to prevent public access to the repository. Select **Create repository (3)** to continue.
 
     ![Repository name is set to partsunlimited. Private access is selected. Create repository button is highlighted.](media/github-partsunlimited-repo.png "Create a new repository")
 
-3. Select the **clipboard copy command** to copy the Git endpoint for your repository and paste the value into a text editor, such as Notepad.exe, for later reference.
+1. Select the **clipboard copy command** to copy the Git endpoint for your repository and paste the value into a text editor, such as Notepad.exe, for later reference.
 
     ![GitHub repository page is shown. Endpoint copy to clipboard button is highlighted.](media/github-endpoint-copy.png "Repository endpoint")
 
     So far, we have used the WebVM virtual machine to simulate Parts Unlimited's On-Premises IIS server. Now that we are done with the migration of Parts Unlimited's website. We will use the VM to execute some development tasks.
 
-4. Connect to your WebVM VM with RDP.
+1. Connect to your WebVM VM with RDP.
 
    ![The WebVM virtual machine is highlighted in the list of resources.](media/webvm-selection.png "WebVM Selection")
 
-5. Right-click on the Windows Start Menu and select **Windows PowerShell (Admin)** to launch a terminal window.
+1. Right-click on the Windows Start Menu and select **Windows PowerShell (Admin)** to launch a terminal window.
 
     ![Start Menu context menu is open. Windows PowerShell (Admin) command is highlighted.](media/launch-powershell.png "Windows PowerShell")
 
-6. The Parts Unlimited website's source code is already copied into the VM as part of the **Before the hands-on lab exercises**. Run the command below to navigate to the source code folder.
+1. The Parts Unlimited website's source code is already copied into the VM as part of the **Before the hands-on lab exercises**. Run the command below to navigate to the source code folder.
 
     ```powershell
     cd "C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\src"
     ```
 
-    >**Note**: Once you have these web files and you also have the database backed up and restored, you can delete both of the virtual machines and any network components related to them from your subscription.
-
-7. Run the following command to initialize a local Git repository.
+1. Run the following command to initialize a local Git repository.
 
     ```powershell
     git init
@@ -718,7 +716,7 @@ In this exercise, you will move the codebase to a GitHub Repo, create a staging 
 
     ![PowerShell terminal is shown. Git init is highlighted and executed.](media/git-init.png "Git init")
 
-8. Next, we will define the remote endpoint as an origin to our local repository. Replace `{YourEndpointURL}` with the endpoint URL you copied previously un the final command in your PowerShelfrom GitHub. Rl terminal.
+1. Next, we will define the remote endpoint as an origin to our local repository. Replace `{YourEndpointURL}` with the endpoint URL you copied previously un the final command in your PowerShelfrom GitHub. Rl terminal.
 
     ```powershell
     git remote add origin {YourEndpointURL}
@@ -726,87 +724,93 @@ In this exercise, you will move the codebase to a GitHub Repo, create a staging 
 
     ![PowerShell terminal is shown. Git remote add origin is highlighted and executed. ](media/git-remote-add.png "Git remote add")
 
-9. Run the following commands to rename the current branch to **Main** and stage all the files for a git commit.
+1. Run the following commands to rename the current branch to **Main** and stage all the files for a git commit.
 
     ```powershell
     git branch -M main
     git add .
     ```
 
-10. Before we commit our changes, we have to identify our git user name and e-mail. In the following command, replace `John Doe` with your name and `johndoe@example.com` with your e-mail address. Once ready, run the command in your PowerShell terminal.
+1. Before we commit our changes, we have to identify our git user name and e-mail. In the following command, replace `John Doe` with your name and `johndoe@example.com` with your e-mail address. Once ready, run the command in your PowerShell terminal.
 
     ```powershell
     git config --global user.name "John Doe"
     git config --global user.email johndoe@example.com
     ```
 
-11. We are ready to commit the source code to our local Git repository. Run the following command to continue.
+1. We are ready to commit the source code to our local Git repository. Run the following command to continue.
 
     ```powershell
     git commit -m "Initial Commit"
     ```
 
-12. Let's push our code to GitHub. Run the following command in your PowerShell terminal.
+1. Let's push our code to GitHub. Run the following command in your PowerShell terminal.
 
     ```powershell
     git push -u origin main
     ```
 
-13. GitHub authentication screen will pop up. Select **Sign in with your browser (2)**. A new browser pop-up will appear with the GitHub login page.
+1. GitHub authentication screen will pop up. Select **Sign in with your browser (2)**. A new browser pop-up will appear with the GitHub login page.
 
     ![PowerShell terminal shows git push command and the GitHub Sign In experoence. Sign in with your browser button is highlighted.](media/github-sign-in.png "GitHub Sign In")
 
-14. Fill-in your GitHub account credentials on the browser window to Sign-In.
+1. Fill-in your GitHub account credentials on the browser window to Sign-In.
 
-15. On the **Authorize Git Credential Manager** screen, select **Authorize GotCredentialManager**. This will give your local environment permission to push the code to GitHub.
+1. On the **Authorize Git Credential Manager** screen, select **Authorize GotCredentialManager**. This will give your local environment permission to push the code to GitHub.
 
     ![Authorize Git Credential Manager is open. Authorize GotCredentialManager button is highlighted.](media/github-access.png "Authorize Git Credential Manager")
 
-16. Close the browser.
+1.  Close the browser.
 
-17. Go back to GitHub and observe the repository with the source code uploaded.
+1.  Go back to GitHub and observe the repository with the source code uploaded.
 
     ![GitHub is shown with the partsunlimited repository populated with source code.](media/github-partsunlimited-repo-loaded.png "GitHub repository page")
 
 ### Task 2: Creating a staging deployment slot
 
-1. Go back to your lab resource group, navigate to your `partsunlimited-web-{uniquesuffix}` **(2)** App Service resource. You can search for `partsunlimited-web` **(1)** to find your Web App and App Service Plan
+In this task you will create a deployment slot for use with a GitHub action to publish a staging version of the application.
+
+If you are using a free app service, you can just use the default slot (only/production slot).  The publish profile from the default slot will work exactly the same as if you had created a staging slot.
+
+1. At Azure, go back to your lab resource group, navigate to your `partsunlimited-web-{uniquesuffix}` **(2)** App Service resource. You can search for `partsunlimited-web` **(1)** to find your Web App and App Service Plan
 
    ![The search box for resources is filled in with partsunlimited-web. The partsunlimited-web-20 Azure App Service is highlighted in the list of resources in the hands-on-lab-SUFFIX resource group.](media/resource-group-appservice-resource.png "Resources")
 
-2. Switch to the **Deployment slots (1)** tab and select **Add Slot (2)**.
+1. Switch to the **Deployment slots (1)** tab and select **Add Slot (2)**.
 
     ![App Service Deployment Slots tab is open. Add slot button highlighted.](media/app-service-add-deployment-slot.png "Deployment slots")
 
-3. Type in **staging** as the name **(1)** of the new slot. Select your app service name from the **Clone settings from (2)** dropdown list. This will ensure our website configurations for the production environment are copied over to the staging environment as a starting point. Select **Add (3)** to add the new slot.
+1. Type in **staging** as the name **(1)** of the new slot. Select your app service name from the **Clone settings from (2)** dropdown list. This will ensure our website configurations for the production environment are copied over to the staging environment as a starting point. Select **Add (3)** to add the new slot.
 
     ![Add a slot panel is open. The name is set staging. Partsunlimited-web-20 is selected for the clone settings from the dropdown list. Add button is highlighted.](media/app-service-staging-slot.png "Adding deployment slot")
 
-4. Once you receive the success message, close **(1)** the panel. Observe **(2)** the two environments we have for the App Service in the deployment slots list.
+1. Once you receive the success message, close **(1)** the panel. Observe **(2)** the two environments we have for the App Service in the deployment slots list.
 
     ![Successfully created slot staging message is shown. The close button is highlighted. The current list of slots is presented.](media/app-service-staging-slot-added.png "Deployment slots")
 
 ### Task 3: Setting up CI/CD with GitHub Actions
 
+In this task, you will create the GitHub action to publish to your Azure Web App Service.
+
 1. Select your staging slot from the list of deployment slots.
 
     ![Deployment slots are listed. Staging slot named partsunlimited-web-20-staging is highlighted.](media/app-service-staging-select.png "Staging deployment slot")
 
-2. From the toolbar menu, select **Get publish profile**. The publish profile is used to authenticate between GitHub and Azure.
+1. From the toolbar menu, select **Get publish profile**. The publish profile is used to authenticate between GitHub and Azure.
 
     ![The staging app service slot screen displays with the Get publish profile button highlighted on the toolbar.](media/retrieve_staging_publish_profile.png "Staging Publish Profile")
 
-3. Open the downloaded file in a text editor. Keep this editor open.
+1. Open the downloaded file in a text editor. Keep this editor open.
 
-4. In a web browser, return to the GitHub repository for this lab, and select the **Settings** tab.
+1. In a web browser, return to the GitHub repository for this lab, and select the **Settings** tab.
 
     ![The GitHub repository web page displays with Settings highlighted in the toolbar.](media/github_settings_tab.png "GitHub Repository Settings Menu")
 
-5. From the left menu, select **Secrets**. Then, select **New repository secret**.
+1. From the left menu, select **Secrets**. Then, select **New repository secret**.
 
     ![The Secrets item is selected in the left menu and the New repository secret button is highlighted.](media/github_repository_add_secret.png "New repository secret")
 
-6. Enter the following values in the **New secret** form, then select **Add secret**.
+1. Enter the following values in the **New secret** form, then select **Add secret**.
 
     | Field | Value |
     |-------|-------|
@@ -815,34 +819,36 @@ In this exercise, you will move the codebase to a GitHub Repo, create a staging 
 
     ![The New secret form displays populated with the previous values. The Add secret button is highlighted.](media/github_publish_profile_secret.png "Add Publish Profile Secret")
 
-7. Select the **Actions** tab.
+1. Select the **Actions** tab.
 
     ![The GitHub repository page displays with the Actions menu item highlighted.](media/github_actions_menu.png "Actions Menu")
 
-8. On the **Get started with GitHub Actions** screen, select the **set up a workflow yourself** link.
+1. On the **Get started with GitHub Actions** screen, select the **set up a workflow yourself** link.
 
     ![The Get started with GitHub Actions screen displays with the set up a workflow yourself link highlighted.](media/github_setupworkflowyourself.png "Set up a workflow yourself")
 
-9. On the workflow editor screen, provide the file name **stagingdeploy.yml**. Commit your changes by selecting the Start Commit button.
+1. On the workflow editor screen, provide the file name **stagingdeploy.yml**. Commit your changes by selecting the Start Commit button.
 
     ![The workflow editor screen displays with the file name set to stagingdeploy.yml](media/github_workflownaming.png "Workflow naming")
 
-10. Return the Web VM. Open a Command window. Execute the following code to pull your newly created GitHub stagingdeploy.yml file locally. You are going to update the file content with the template stagingdeploy.yml.
+1. Return the Web VM. Open a Command window. Execute the following code to pull your newly created GitHub stagingdeploy.yml file locally. You are going to update the file content with the template stagingdeploy.yml.
 
     ```cmd
-        cd C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\src
+        cd "C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\src"
         git pull
     ```
 
     ![The image shows successfully pulling down the new GitHub workflow.](media/git-pull-workflow-file-locally.png "Pull Git Workflow")
 
-11. Open Windows Explorer. Copy the solution template yml file `C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\workflow\stagingdeploy.yml` to `C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\src\.github\workflows\stagingdeploy.yml`.  You are going to replace the default GitHub workflow yml content.
+1. Open Windows Explorer. Copy the solution template yml file `C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\workflow\stagingdeploy.yml` to `C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\src\.github\workflows\stagingdeploy.yml`.  You are going to replace the default GitHub workflow yml content.
 
-12. Open the `stagingdeploy.yml` in Visual Studio Code. Replace the suffix value on lines 7 and 11 to match your lab.
+1. Open the `stagingdeploy.yml` in Visual Studio Code. Replace the suffix value on lines 7 and 11 to match your lab.
 
     ![YML file is displayed with the suffix values highlighted.](media/ymlreplacesuffix.png "YML file")
 
-13. You have just updated the `partsunlimited` GitHub project. It is time to save and push your changes. Execute these commands in a Web VM Command window.
+    >**Note:** Additionally, if you are NOT using slots, remove the line `slot-name: ${{ env.DEPLOYMENT_SLOT }}` from your yaml file.
+
+1. You have just updated the `partsunlimited` GitHub project. It is time to save and push your changes. Execute these commands in a Web VM Command window.
 
     ```cmd
         cd C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\src
@@ -851,63 +857,79 @@ In this exercise, you will move the codebase to a GitHub Repo, create a staging 
         git push 
     ```
 
-14. In GitHub, select **Actions**. The workflow will display as in progress.
+1. In GitHub, select **Actions**. The workflow will display as in progress.
 
     ![The GitHub action workflow displays as being in progress.](media/github_action_in_progress.png "Workflow in progress")
 
-15. Go back to your lab resource group on the Azure Portal, navigate to your `staging (partsunlimited-web-{uniquesuffix}/staging)` **(2)** App Service resource. You can search for `staging` **(1)** to find your App Service (Slot) for staging.
+    >**Note:** If your deployment fails for the slot and you don't have a slot, remove the `slot-name` line from the deployment step (the last line of the yaml file).
+
+1. Go back to your lab resource group on the Azure Portal, navigate to your `staging (partsunlimited-web-{uniquesuffix}/staging)` **(2)** App Service resource. You can search for `staging` **(1)** to find your App Service (Slot) for staging.
 
     ![The search box for resources is filled in with staging. The staging (partsunlimited-web-{uniquesuffix}/staging) Azure App Service Deployment Slot is highlighted in the list of resources in the hands-on-lab-SUFFIX resource group.](media/select-staging-app-service.png "Staging Resource")
 
-16. Notice the dedicated web link for your staging slot. Select to navigate to the website to see the result of your successful deployment through the CI/CD pipeline.
+1. Notice the dedicated web link for your staging slot. Select to navigate to the website to see the result of your successful deployment through the CI/CD pipeline.
 
     ![Staging slot for partsunlimited app service is open. URL endpoint for the deployment slot is highlighted.](media/staging-slot-link.png "Staging public endpoint")
 
 ### Task 4: Pushing code changes to staging and production
 
+In this step, you will create a quick change to deploy, and deploy to the staging slot. In the next task you will swap slots to see your changes make it to production.
+
 1. Connect to your WebVM VM with RDP.
 
    ![The WebVM virtual machine is highlighted in the list of resources.](media/webvm-selection.png "WebVM Resource Selection")
 
-2. Select the Start menu and search for **Visual Studio Code**. Select **Visual Studio Code** to run it.
+1. Select the Start menu and search for **Visual Studio Code**. Select **Visual Studio Code** to run it.
 
     ![Start Menu is open. Visual Studio Code is typed in the search box. Visual Studio Code is highlighted from the list of search results.](media/vscode-start-menu.png "Visual Studio Code")
 
-3. Open the **File (1)** menu and select **Open Folder... (2)**.
+1. Open the **File (1)** menu and select **Open Folder... (2)**.
 
     ![File menu is open in Visual Studio Code. Open Folder... command is highlighted.](media/vscode-open-folder.png "Open Folder")
 
-4. Navigate to `C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\src` and select **Select Folder (1)**.
+1. Navigate to `C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\src` and select **Select Folder (1)**.
 
     ![Visual Studio Code Open Folder dialog is open. The folder path is set to C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\src, and the Select Folder button is highlighted.](media/vscode-select-folder.png "Select Folder")
 
-5. We are going to introduce a brand new change to Parts Unlimited's website. In the Explorer window navigate to **src > PartsUnlimitedWebSite > Views > Home** and select **Index.cshtml (4)** for editing. Change the Title of the page **(5)** and save the file by using going to the File menu and selecting **Save**. Notice the underlying git repository detecting a change (6) in the codebase.
+1. We are going to introduce a brand new change to Parts Unlimited's website. 
+   
+    In the Explorer window navigate to **src > PartsUnlimitedWebSite > Views > Home** and select **Index.cshtml (4)** for editing. Change the Title of the page **(5)** 
+    
+    Do some other major change that will be easily identified, such as changing the discount for "All Oil and Filters" to `50%` and change the text `discount` to `off for our ridiculous blowout sale event`.
+
+    Save the file by using going to the File menu and selecting **Save**. Notice the underlying git repository detecting a change (6) in the codebase.
 
     ![Index.cshtml from src > PartsUnlimitedWebSite > Views > Home folder is open. Page Title is changed to New Home Page. One pending change in the source control is highlighted.](media/vscode-changing-source-code.png "Code editing in VSCode")
 
-6. Select **Source Control (1)** tab in Visual Studio Code. Since we worked on the codebase in our repo in the virtual machine, the codebase in the repo on GitHub has changed. Open the **Views and more actions... (2)** menu and select **Pull (3)** to get the latest from the remote repository.
+1. Select **Source Control (1)** tab in Visual Studio Code
+
+    Since we worked on the codebase in our repo in the virtual machine, the codebase in the repo on GitHub has changed. Open the **Views and more actions... (2)** menu and select **Pull (3)** to get the latest from the remote repository.
 
     ![Views and more actions... menu is open. Pull command is highlighted.](media/vscode-pull.png "GitHub Pull")
 
-7. Select **Stage Changes (1)**. Type in a commit message **(2)** for the changes. Select **Commit (3)**.
+1. Select **Stage Changes (1)**. Type in a commit message **(2)** for the changes. Select **Commit (3)**.
 
     ![Stage changes button for index.cshtml is highlighted. Commit message is set to New Home Page Title. Commut button is highlighted.](media/vscode-stage-commit.png "GitHub Commit")
 
-8. Open the **Views and more actions... (1)** menu and select **Push (2)** to push the changes to GitHub.
+1. Open the **Views and more actions... (1)** menu and select **Push (2)** to push the changes to GitHub.
+
+    >**Note:** You can use the `sync` action to push and pull if you want.
 
     ![Views and more actions... menu is open. Push command is highlighted.](media/vscode-push.png "GitHub Push")
 
-9. Open the GitHub repository and observe the Actions page for the latest execution of the CI/CD Pipeline.
+1. Open the GitHub repository and observe the Actions page for the latest execution of the CI/CD Pipeline.
 
     ![PartsUnlimited repo is open. Actions page is shown. Successful CI/CD run for the new home page title is highlighted.](media/github-actions-success-commit.png "New commit build")
 
-10. Navigate to the staging environment endpoint in your browser and observe the Title change.
+1. Navigate to the staging environment endpoint in your browser and observe the changes.
 
-    ![Parts Unlimited staging environment is open in a browser. New Home Page title is highlighted.](media/staging-code-changes.png "Parts Unlimited Staging Web Site")
+    ![Parts Unlimited staging environment is open in a browser. Changes are shown.](media/additionalhol/image0007.png "Parts Unlimited Staging Web Site")
 
 Now that Parts Unlimited has a separate staging environment for their e-commerce site, they can push new source code and functionality to the repo that will automatically be built and deployed to their staging for testing.
 
 ### Task 5: Swap deployment slots to move changes in staging to production
+
+In this task, you will promote changes to production.
 
 Once Parts Unlimited is happy with the changes tested in their staging environment, they can swap the two environments and have changes go to production. Environment Swap happens very fast and can help Parts Unlimited pull back changes by switching back if needed.
 
@@ -915,17 +937,17 @@ Once Parts Unlimited is happy with the changes tested in their staging environme
 
    ![The search box for resources is filled in with partsunlimited-web. The partsunlimited-web-20 Azure App Service is highlighted in the list of resources in the hands-on-lab-SUFFIX resource group.](media/resource-group-appservice-resource.png "Resources")
 
-2. Switch to the **Deployment slots (1)** tab and select **Swap (2)**.
+1. Switch to the **Deployment slots (1)** tab and select **Swap (2)**.
 
     ![App Service Deployment Slots tab is open. Swap button highlighted.](media/app-service-slot-swap.png "Deployment Slot Swap")
 
-3. Select the **Swap** button to swap the staging slot with the production slow.
+1. Select the **Swap** button to swap the staging slot with the production slow.
 
     ![Deployment Slot Swap dialog is open. Swap button is highlighted.](media/app-service-slot-swap-panel.png "Deployment Slot Swap")
 
-4. Once you receive the success message, close the swap panel.
+1. Once you receive the success message, close the swap panel.
 
-5. Visit both production and staging slot endpoints and observe how the Title change is moved to production.
+1. Visit both production and staging slot endpoints and observe how the changes you made are moved to production.
 
     > Once you move your staging slot to production, your production slot is moved to staging as well. This means that your current staging slot does not have the latest changes you have pushed to the repo. You can trigger a manual CI/CD workflow execution to push the latest changes to staging.
     >
@@ -947,59 +969,67 @@ You suggest a serverless approach that can handle order processing and the creat
 
    ![The WebVM virtual machine is highlighted in the list of resources.](media/webvm-selection.png "WebVM Resource Selection")
 
-2. Select the Start menu and search for **Visual Studio Code**. Select **Visual Studio Code** to run it.
+1. Select the Start menu and search for **Visual Studio Code**. Select **Visual Studio Code** to run it.
 
     ![Start Menu is open. Visual Studio Code is typed in the search box. Visual Studio Code is highlighted from the list of search results.](media/vscode-start-menu.png "Visual Studio Code")
 
-3. Open the **File (1)** menu and select **Open Folder... (2)**.
+1. Open the **File (1)** menu and select **Open Folder... (2)**.
 
     ![File menu is open in Visual Studio Code. Open Folder... command is highlighted.](media/vscode-open-folder.png "Open Folder")
 
-4. Navigate to `C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\src-invoicing-functions\FunctionApp` and select **Select Folder**.
+1. Navigate to `C:\MCW\MCW-App-modernization-main\Hands-on lab\lab-files\src-invoicing-functions\FunctionApp` and select **Select Folder**.
 
-5. Select **Install** to install extensions required for your Azure Functions project. This will install C# for Visual Studio Code and Azure Functions Extension for Visual Studio Code.
+1. Select **Install** to install extensions required for your Azure Functions project. This will install C# for Visual Studio Code and Azure Functions Extension for Visual Studio Code.
 
     ![Visual Studio Code is on screen. Install extensions button is highlighted.](media/vscode-extenstions-install.png "Extension Install")
 
-6. Once install is **Finished (1)** select **Restore (2)** to download dependencies for the project.
+    Additionally, ensure you also add the Azure Tools extension to VSCode.
+
+    Open extensions and search for `Azure Tools`.  Select them and then hit the `install` button.
+
+    ![Searching for Azure Tools Extension and then installing them is shown.](media/additionalhol/image0008.png "Add Azure Tools")
+
+1. Once install is **Finished (1)** select **Restore (2)** to download dependencies for the project.
 
     ![Visual Studio Code is on screen. Restore dependencies button is highlighted.](media/vscode-restore-dependencies.png ".NET Restore")
 
-7. When restore is complete close the tabs titled **Extension (1) (2)** and the **welcome tab (3)**. Select **Azure (4)** from the left menu and select **Sign into Azure (5)**. Select **Edge** as your browser if requested.
+1. When restore is complete close the tabs titled **Extension (1) (2)** and the **welcome tab (3)**. Select **Azure (4)** from the left menu and select **Sign into Azure (5)**. Select **Edge** as your browser if requested.
 
     ![Clouse buttons for all tabs are highlighted. Azure button from the left bar is selected. Sign in to Azure link is highlighted.](media/vscode-azure-signin.png "VSCode Azure Sign In")
 
-8. Enter your Azure credentials and Sign In.
+1. Enter your Azure credentials and Sign In.
 
-9. Close the browser window once your sign-in is complete.
+1. Close the browser window once your sign-in is complete.
 
-10. Drill down **(1)** the resource in your subscription. Right-click on your Azure Function named **parts-func-{uniquesuffix} (2)** and select **Deploy to Azure Function App... (3)**.
+1. Drill down **(1)** the resource in your subscription. Right-click on your Azure Function named **parts-func-{uniquesuffix} (2)** and select **Deploy to Azure Function App... (3)**.
 
     ![Azure subscription is shown. The function app **parts-func-{uniquesuffix} (2)** is selected. On the context menu, Deploy to Function App is highlighted.](media/vscode-deploy-function-app.png "Deploy to Function App")
 
-11. Select **Deploy**.
+1. Select **Deploy**.
 
     ![VS Code deployment approval dialog is open.](media/vscode-deploy-approval.png "Deploy overwrite")
 
 ### Task 2: Connecting Function App and App Service
 
+In this task, you will wire up your function app to work with your deployed app service.
+
 1. In the [Azure portal](https://portal.azure.com), navigate to your `parts` Storage Account resource by selecting **Resource groups** from Azure services list, selecting the **hands-on-lab-SUFFIX** resource group, and selecting the `parts{uniquesuffix}` Storage Account from the list of resources.
 
     ![The parts{uniquesuffix} Storage Account is highlighted in the list of resources in the hands-on-lab-SUFFIX resource group.](media/select-storage-account.png "Storage Resource Selection")
 
-2. Switch to the **Access keys (1)** blade, and select **Show keys (2)**. Select the copy button for the first connection string **(3)**. Paste the value into a text editor, such as Notepad.exe, for later reference.
+1. Switch to the **Access keys (1)** blade, and select **Show keys (2)**. Select the copy button for the first connection string **(3)**. Paste the value into a text editor, such as Notepad.exe, for later reference.
 
     ![Access keys blade is open. Show keys button is highlighted. The copy button for the first connection string is pointed.](media/storage-account-connection-copy.png "Storage Access Keys")
 
-3. Go back to the resource list and navigate to your `partsunlimited-web-{uniquesuffix}` **(2)** App Service resource. You can search for `partsunlimited-web` **(1)** to find your Web App and App Service Plan
+1. Go back to the resource list and navigate to your `partsunlimited-web-{uniquesuffix}` **(2)** App Service resource. You can search for `partsunlimited-web` **(1)** to find your Web App and App Service Plan
 
    ![The search box for the resource is filled in with partsunlimited-web. The partsunlimited-web-20 Azure App Service is highlighted in the list of resources in the hands-on-lab-SUFFIX resource group.](media/resource-group-appservice-resource.png "Resources")
 
-4. Switch to the **Configuration (1)** blade, and select **+New connection string (2)**.
+1. Switch to the **Configuration (1)** blade, and select **+New connection string (2)**.
 
     ![App service configuration panel is open. +New connection string button is highlighted.](media/app-service-settings-new-connection.png "App Service Configuration")
 
-5. On the **Add/Edit connection string** panel, enter the following:
+1. On the **Add/Edit connection string** panel, enter the following:
 
    - **Name(1)**: Enter `StorageConnectionString`.
    - **Value**: Enter Storage Connection String you copied in Step 2.
@@ -1008,79 +1038,83 @@ You suggest a serverless approach that can handle order processing and the creat
 
     ![Add/Edit Connection string panel is open. The name field is set to StorageConnectionString. The value field is set to the connection string copied in a previous step. Type is set to Custom. The deployment slot setting checkbox is checked. OK button is highlighted. ](media/app-service-storage-connection.png "Deployment Slot Configuration")
 
-6. Select **OK (5)**.
+1. Select **OK (5)**.
 
-7. Select **Save** and **Continue** for the following confirmation dialog.
+1. Select **Save** and **Continue** for the following confirmation dialog.
 
     ![App Service Configuration page is open. Save button is highlighted.](media/app-service-settings-save.png "App Service Configuration")
 
-8. Go back to the resource list and navigate to your `parts-func-{uniquesuffix}` **(2)** Function App resource. You can search for `func` **(1)** to find your function app.
+1. Go back to the resource list and navigate to your `parts-func-{uniquesuffix}` **(2)** Function App resource. You can search for `func` **(1)** to find your function app.
 
    ![The search box for the resource is filled in with func. The parts-func-{uniquesuffix} Function App is highlighted in the list of resources in the hands-on-lab-SUFFIX resource group.](media/select-function-app.png "Function App Resource Selection")
 
-9. Switch to the **Configuration (1)** blade, and select **+New application setting (2)**.
+1. Switch to the **Configuration (1)** blade, and select **+New application setting (2)**.
 
     ![Function App configuration panel is open. +New application setting button is highlighted.](media/function-app-app-settings-new.png "Function App Configuration")
 
-10. On the **Add/Edit connection string** panel, enter the following:
+1. On the **Add/Edit connection string** panel, enter the following:
 
     - **Name(1)**: Enter `DefaultConnection`.
     - **Value**: Enter SQL Connection String you copied in Exercise 3, Task 5, Step 3.
 
     ![Add/Edit Connection string panel is open. The name field is set to StorageConnectionString. The value field is set to the connection string copied in a previous step. Type is set to Custom. The deployment slot setting checkbox is checked. OK button is highlighted.](media/function-app-sql-setting.png "Function App Configuration")
 
-11. Select **OK (3)**.
+1. Select **OK (3)**.
 
-12. Select **Save** and **Continue** for the following confirmation dialog.
+1. Select **Save** and **Continue** for the following confirmation dialog.
 
     ![Function App Configuration page is open. Save button is highlighted.](media/function-app-setting-save.png "Function App Configuration")
 
+>**Note:** You need to ensure that your Azure SQL Database can be accessed by other Azure Services.  Return to the Azure SQL Database and select `Set Server Firewall` and modify to allow Azure services to connect if not already allowed.
+
+![Set the server firewall to allow Azure Services and Resources to access this server is shown](media/additionalhol/image0009.png)
+
 ### Task 3: Testing serverless order processing
 
-In this task, we will submit a new order on the Parts Unlimited website and observe the order's processing on the order details page. Once the order is submitted, the web front-end will put a job into an Azure Storage Queue. The Function App that we previously deployed is set to listen to the queue and pull jobs for processing. Once order processing is done, a PDF file will be created, and the link for the PDF file will be accessible on the order details page.
+In this task, you will submit a new order on the Parts Unlimited website and observe the order's processing on the order details page. Once the order is submitted, the web front-end will put a job into an Azure Storage Queue. The Function App that you previously deployed is set to listen to the queue and pull jobs for processing. Once order processing is done, a PDF file will be created, and the link for the PDF file will be accessible on the order details page.
 
 1. Go back to the resource list and navigate to your `partsunlimited-web-{uniquesuffix}` **(2)** App Service resource. You can search for `partsunlimited-web` **(1)** to find your Web App and App Service Plan.
 
    ![The search box for the resource is filled in with partsunlimited-web. The partsunlimited-web-20 Azure App Service is highlighted in the list of resources in the hands-on-lab-SUFFIX resource group.](media/resource-group-appservice-resource.png "Resources")
 
-2. Select **URL** and navigate to the Parts Unlimited website hosted in Azure App Service.
+1. Select **URL** and navigate to the Parts Unlimited website hosted in Azure App Service.
 
     ![Parts Unlimited App Service is on screen. URL is highlighted.](media/navigate-to-parts-unlimited-app-service.png "App Service Public Endpoint")
 
-3. Select **Login (1)** and select **Register as a new user? (2)**.
+1. Select **Login (1)** and select **Register as a new user? (2)**.
 
     ![Parts Unlimited website login screen is presented. Log in and Register as a new user buttons are highlighted.](media/register-parts-unlimited.png "Parts Unlimited Login")
 
-4. Type in `test@test.com` for the email **(1)** and `Password.1!!` **(2)** for the password. Select **Register (3)**.
+1. Type in `test@test.com` for the email **(1)** and `Password.1!!` **(2)** for the password. Select **Register (3)**.
 
     ![Parts Unlimited website user registration screen is presented. E-mail box is filled with test@test.com. Password boxes are filled in with Password.1!!. The register button is highlighted.](media/register-parts-unlimited-new-user.png "Register")
 
-5. On the next screen, select **Click here to confirm your e-mail** to confirm your e-mail.
+1. On the next screen, select **Click here to confirm your e-mail** to confirm your e-mail.
 
-6. Select **Login (1)** and type the credentials listed below.
+1. Select **Login (1)** and type the credentials listed below.
 
     - **Email (2):** test@test.com
     - **Password (3):** Password.1!!
 
     ![Parts Unlimited website login screen is presented. The E-mail box is filled with test@test.com. Password boxes are filled in with Password.1!!. The login button is highlighted. ](media/parts-umlimited-login.png "Login")
 
-7. Select **Login (4)**.
+1. Select **Login (4)**.
 
-8. Select a product from the home page, and select **Add to Card** once you are on the product detail page.
+1. Select a product from the home page, and select **Add to Cart** once you are on the product detail page.
 
     ![Product detail page is shown. Add to cart button is highlighted.](media/parts-unlimited-add-to-cart.png "Add to Cart")
 
-9. Select **Checkout** on the next screen.
+1. Select **Checkout** on the next screen.
 
-10. Fill in sample shipping information **(1)** for testing purposes. Use coupon code **FREE (2)** and select **Submit Order (3)**.
+1. Fill in sample shipping information **(1)** for testing purposes. Use coupon code **FREE (2)** and select **Submit Order (3)**.
 
     ![Sample shipping information is filled in. FREE coupon code is typed in. Submit Order button is highlighted.](media/parts-unlimited-order.png "Submit Order")
 
-11. Once checkout is complete select **view your order** to see order details.
+1. Once checkout is complete select **view your order** to see order details.
 
     ![Checkout Complete page is shown. View your order link is highlighted.](media/parts-unlimited-view-order-details.png "View your order")
 
-12. Observe the invoice field. Right now, your order is flagged as in processing. An order job is submitted to the Azure Storage Queue to be processed by Azure Functions. Refresh the page every 15 seconds to see if anything changes about your order.
+1. Observe the invoice field. Right now, your order is flagged as in processing. An order job is submitted to the Azure Storage Queue to be processed by Azure Functions. Refresh the page every 15 seconds to see if anything changes about your order.
 
     ![Order details page is open. The invoice field is highlighted.](media/parts-unlimited-invoice-processing.png "Invoice processing")
 
