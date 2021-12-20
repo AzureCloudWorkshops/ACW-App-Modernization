@@ -2,7 +2,7 @@
 
 ## Steps
 
-1. Begin by running the entire "Before the HOL"
+1. Begin by running the entire `Before the HOL`
 
     In this step, you will deploy the VMs for SQL Server and the Web
     No matter what subscription you are on, this should work as expected/outlined
@@ -25,7 +25,7 @@
 
     Another approach is to delete the parts database and create a simple basic database to save money.
 
-1. Once you have the database restored at Azure, and you have the web solution migrated, you are done with the first part of the "app modernization".  
+1. Once you have the database restored at Azure, and you have the web solution migrated, you are done with the first part of the `app modernization`.  
 
 1. At this point, you should have a working web application and you should have a deployed database with data in it.  You should also have added the connection string to the app service.
 
@@ -35,7 +35,7 @@
 
 1. The deployment workflow should work as expected for this application, as long as you've followed the other steps correctly.  Don't forget you can't deploy without:
 
-- Your secret "publish profile" being set correctly
+- Your secret `publish profile` being set correctly
 - You must update the workflow to contain the correct web application name.  
 - If you are NOT using a slot, then remove the slot portion of the deployment.
 
@@ -49,8 +49,8 @@
 
     Set up the app insights to view the trace.
 
-    If you see "storage account not found" it is because you didn't make sure the `AzureWebJobsStorage` environment variable on the function app was set correctly.
+    If you see `storage account not found` it is because you didn't make sure the `AzureWebJobsStorage` environment variable on the function app was set correctly.
 
-    If you see "SQL Server connection not created" or something similar, make sure the function app uses `DefaultConnection` from the Application Environment variables and make sure that you have that set correctly in your function app.
+    If you see `SQL Server connection not created` or something similar, make sure the function app uses `DefaultConnection` from the Application Environment variables and make sure that you have that set correctly in your function app.
 
     ![Ensure configurations for function app](media/additionalhol/image0010.png)  
