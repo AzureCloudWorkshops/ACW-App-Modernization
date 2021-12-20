@@ -1054,20 +1054,26 @@ In this task, you will wire up your function app to work with your deployed app 
 
 1. On the **Add/Edit connection string** panel, enter the following:
 
+    >**NOTE:** Make sure you are NOT setting this under connection strings for the function app, but instead are setting this for the `New Application Settings` as this is an environment variable in the function app, not a connection string variable.
+
     - **Name(1)**: Enter `DefaultConnection`.
     - **Value**: Enter SQL Connection String you copied in Exercise 3, Task 5, Step 3.
 
     ![Add/Edit Connection string panel is open. The name field is set to StorageConnectionString. The value field is set to the connection string copied in a previous step. Type is set to Custom. The deployment slot setting checkbox is checked. OK button is highlighted.](media/function-app-sql-setting.png "Function App Configuration")
 
-1. Select **OK (3)**.
+2. Select **OK (3)**.
 
-1. Select **Save** and **Continue** for the following confirmation dialog.
+3. Select **Save** and **Continue** for the following confirmation dialog.
 
     ![Function App Configuration page is open. Save button is highlighted.](media/function-app-setting-save.png "Function App Configuration")
 
 >**Note:** You need to ensure that your Azure SQL Database can be accessed by other Azure Services.  Return to the Azure SQL Database and select `Set Server Firewall` and modify to allow Azure services to connect if not already allowed.
 
-![Set the server firewall to allow Azure Services and Resources to access this server is shown](media/additionalhol/image0009.png)
+![Set the server firewall to allow Azure Services and Resources to access this server is shown](media/additionalhol/image0009.png) 
+
+1. Ensure the connection string is correct for the function app
+
+    Go to the `AzureWebJobsStorage` Configuration and ensure the value maps to the same value you set earlier for the web application from the connection string from the storage account.
 
 ### Task 3: Testing serverless order processing
 
@@ -1134,19 +1140,19 @@ In this task, you add Application Insights to your Function App in the Azure Por
 
    ![The Function App resource is highlighted in the list of resources.](media/azure-resources-function-app.png "Function App")
 
-2. On the Function App blade, select **Application Insights (1)** under Settings from the left-hand menu. On the Application Insights blade, select **Turn on Application Insights (2)**.
+1. On the Function App blade, select **Application Insights (1)** under Settings from the left-hand menu. On the Application Insights blade, select **Turn on Application Insights (2)**.
 
    ![Application Insights blade is selected. The Turn on Application Insights button is highlighted.](media/function-app-add-app-insights.png "Turn on Application Insights for Function App")
 
-3. On the Application Insights blade, select **Create new resource (1)**, accept the default name provided, and then select **Apply (2)**. Select **Yes (3)** when prompted about restarting the Function App to apply monitoring settings.
+1. On the Application Insights blade, select **Create new resource (1)**, accept the default name provided, and then select **Apply (2)**. Select **Yes (3)** when prompted about restarting the Function App to apply monitoring settings.
 
    ![The Create New Application Insights blade is displayed with a unique name set under Create new resource. Apply and the following Yes approval buttons are highlighted.](media/function-app-app-insights.png "Add Application Insights")
 
-4. After the Function App restarts, select **View Application Insights data**.
+1. After the Function App restarts, select **View Application Insights data**.
 
    ![The View Application Insights data link is highlighted.](media/function-app-view-application-insights-data.png "View Application Insights data")
 
-5. On the Application Insights blade, select **Live Metrics Stream (1)** from the left-hand menu.
+1. On the Application Insights blade, select **Live Metrics Stream (1)** from the left-hand menu.
 
    ![Live Metrics Stream is highlighted in the left-hand menu on the Application Insights blade.](media/app-insights-live-metrics-stream.png "Application Insights")
 

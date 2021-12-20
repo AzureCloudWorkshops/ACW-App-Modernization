@@ -45,14 +45,12 @@
 
 1. At the end, you'll have a web page that is supposed to commit orders and in the process enter a message into the queue. 
 
-    At some point, the azure function should trigger and then respond to the storage queue.
+    At some point, the azure function should trigger and then respond to the storage queue.  It is polling the queue.
 
-    Seems like there is nothing wiring up the function to respond to the message, and that the use of Queue is a poor choice here - seems like more of a job for service bus.  
+    Set up the app insights to view the trace.
 
-    Not sure how the function would ever get triggered since no event was ever created, no storage queue was manually created, and no trigger/event was wired up.
+    If you see "storage account not found" it is because you didn't make sure the `AzureWebJobsStorage` environment variable on the function app was set correctly.
 
+    If you see "SQL Server connection not created" or something similar, make sure the function app uses `DefaultConnection` from the Application Environment variables and make sure that you have that set correctly in your function app.
 
-
-
-
-
+    ![Ensure configurations for function app](media/additionalhol/image0010.png)  
